@@ -3,8 +3,10 @@ package microphone.muter;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.IBinder;
 
@@ -23,9 +25,6 @@ public class MicrophoneMuter extends Service {
 		return super.onStartCommand(i, flags, startId);
 	}
 
-	// TODO(aoeu): Add broadcast receiver to re-mute microphone if unmuted.
-	// https://developer.android.com/reference/android/media/AudioManager?#ACTION_MICROPHONE_MUTE_CHANGED
-
 	void muteMicrophone() {
 		((AudioManager)getSystemService(Context.AUDIO_SERVICE))
       		.setMicrophoneMute(true);
@@ -34,7 +33,6 @@ public class MicrophoneMuter extends Service {
 	void startFrontend() {
 		startForeground(
 			notificationID,
-
 			new Notification.Builder(getApplicationContext())
 				.setOngoing(true)
 				.setContentTitle("Microphone is muted")
@@ -46,5 +44,46 @@ public class MicrophoneMuter extends Service {
 				.setSmallIcon(android.R.drawable.ic_lock_silent_mode)
 				.build()
 		);
+	}
+
+	boolean isMicrophoneMuted() {
+		return ((AudioManager)getSystemService(Context.AUDIO_SERVICE))
+			.isMicrophoneMute();
+	}
+
+	// TODO(aoeu): Is there any way to receive broadcasts if mic mute is toggled in API 25?
+	class Receiver extends BroadcastReceiver {
+		// API-level 28 added AudioManager.ACTION_MICROPHONE_MUTE_CHANGED,
+		// use its raw String value so we can still have backwards
+		// compatibility for API-Level 25 (N / Android 7.1 / LineageOS 14).
+		final String micMuteToggled = "android.media.action.MICROPHONE_MUTE_CHANGED";
+
+		public void onReceive(Context c, Intent i) {
+			if (micMuteToggled.equals(i.getAction())) {
+				if (!isMicrophoneMuted()) {
+					muteMicrophone();
+				}
+			}
+		}
+
+		public void register() {
+			IntentFilter i = new IntentFilter();
+			i.addAction(micMuteToggled);
+			registerReceiver(this, i);
+		}
+
+		public void unregister() {
+			unregisterReceiver(this);
+		}
+	};
+
+	final Receiver r = new Receiver();
+
+	public void onCreate() {
+		r.register();
+	}
+
+	public void onDestroy() {
+		r.unregister();
 	}
 }
