@@ -39,11 +39,20 @@ public class MicrophoneMuter extends Service {
 				.setContentText("All apps will receive no audio from the microphone.")
 				// TODO(aoeu): Add bundle-value to signal stopping of service when notification is clicked.
 				.setContentIntent(
-					PendingIntent.getActivity(this, 0, new Intent(this, Main.class), 0)
+					PendingIntent.getActivity(this, 0, createIntent(), 0)
 				)
 				.setSmallIcon(android.R.drawable.ic_lock_silent_mode)
 				.build()
 		);
+	}
+
+	public final static String keyToStop =
+		"turn off the microphone muter now because the notification was clicked";
+
+	Intent createIntent() {
+		Intent i = new Intent(this, Main.class);
+		i.putExtra(keyToStop, true);
+		return i;
 	}
 
 	boolean isMicrophoneMuted() {
