@@ -37,7 +37,6 @@ public class MicrophoneMuter extends Service {
 				.setOngoing(true)
 				.setContentTitle("Microphone is muted")
 				.setContentText("All apps will receive no audio from the microphone.")
-				// TODO(aoeu): Add bundle-value to signal stopping of service when notification is clicked.
 				.setContentIntent(
 					PendingIntent.getActivity(this, 0, createIntent(), 0)
 				)
