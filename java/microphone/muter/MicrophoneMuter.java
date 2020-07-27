@@ -35,8 +35,10 @@ public class MicrophoneMuter extends Service {
 			notificationID,
 			new Notification.Builder(getApplicationContext())
 				.setOngoing(true)
-				.setContentTitle("Microphone is muted")
-				.setContentText("All apps will receive no audio from the microphone.")
+				.setContentTitle("All apps are currently receiving no audio from the microphone.")
+				.setContentText(
+					"Click this notification to re-enable the microphone for all apps."
+				)
 				.setContentIntent(
 					PendingIntent.getActivity(this, 0, createIntent(), 0)
 				)
@@ -95,5 +97,14 @@ public class MicrophoneMuter extends Service {
 	// `Activity.stopService(new Intent(Activity.this, MicrophoneMuter.class));`
 	public void onDestroy() {
 		r.unregister();
+		if (isMicrophoneMuted()) {
+			unmuteMicrophone();
+		}
 	}
+
+	void unmuteMicrophone() {
+		((AudioManager)getSystemService(Context.AUDIO_SERVICE))
+			.setMicrophoneMute(false);
+	}
+
 }
