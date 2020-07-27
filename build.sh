@@ -62,8 +62,6 @@ generateJavaFileForAndroidResources() {
 }
 
 compileJavaSourceFilesToJavaVirtualMachineBytecode() {
-	echo "TODO: Why aren't .aar files (or the extracted classes.jar)" && \
-	echo "detected by javac even when specified in the -classpath flag?" && \
 	javac \
 		-classpath "$androidLib:/tmp/c/classes.jar" \
 		-sourcepath "$javaSourcesFilepath:$outputDirForGeneratedSourceFiles" \
@@ -87,7 +85,7 @@ addAndroidRuntimeBytecodeToAndroidApplicationPackage() {
 }
 
 signAndroidApplicationPackageWithDebugKey() {
-	( jarsigner -keystore "$HOME/.android/debug.keystore" -storepass 'android' "$filepathOfUnalignedAPK" androiddebugkey ) 1>&2
+	 jarsigner -keystore "$HOME/.android/debug.keystore" -storepass 'android' "$filepathOfUnalignedAPK" androiddebugkey 1>&2 2>/dev/null
 }
 
 alignUncompressedDataInZipFileToFourByteBoundariesForFasterMemoryMappingAtRuntime() {
