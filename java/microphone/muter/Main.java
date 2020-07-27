@@ -10,9 +10,7 @@ public class Main extends Activity {
 		super.onCreate(b);
 		Intent i = new Intent(this, MicrophoneMuter.class);
 		if (shouldStopService()) {
-			android.util.Log.e("", "stopping service");
 			stopService(i);
-
 		} else {
 			startService(i);
 		}
