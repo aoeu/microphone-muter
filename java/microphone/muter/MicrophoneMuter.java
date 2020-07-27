@@ -91,6 +91,8 @@ public class MicrophoneMuter extends Service {
 		r.register();
 	}
 
+	// onDestroy is automatically triggered via an Activity calling:
+	// `Activity.stopService(new Intent(Activity.this, MicrophoneMuter.class));`
 	public void onDestroy() {
 		r.unregister();
 	}
