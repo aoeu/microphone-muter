@@ -9,11 +9,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.IBinder;
+import android.os.Handler;
 
 public class MicrophoneMuter extends Service {
 
 	static final int notificationID = 1;
 	static final String notificationChannelID = "muter";
+
+	Handler h = new Handler();
+
+	boolean hasNoMicrophoneMuteChangedBroadcaster = android.os.Build.VERSION.SDK_INT < 28;
+	boolean shouldPollForMicrophoneMuteChanged = hasNoMicrophoneMuteChangedBroadcaster;
 
 	public IBinder onBind(Intent i) {
 		return null;
@@ -22,6 +28,9 @@ public class MicrophoneMuter extends Service {
 	public int onStartCommand(Intent i, int flags, int startId) {
 		muteMicrophone();
 		startFrontend();
+		if (shouldPollForMicrophoneMuteChanged) {
+			pollForMicrophoneMuteChanged();
+		}
 		return super.onStartCommand(i, flags, startId);
 	}
 
@@ -61,7 +70,26 @@ public class MicrophoneMuter extends Service {
 			.isMicrophoneMute();
 	}
 
-	// TODO(aoeu): Is there any way to receive broadcasts if mic mute is toggled in API 25?
+	void pollForMicrophoneMuteChanged() {
+		h.postDelayed(
+			new MicrophonePoller(),
+			randomizeMilliseconds(500, 2000)
+		);
+	}
+
+	class MicrophonePoller implements Runnable {
+		public void run() {
+			if (!isMicrophoneMuted()) {
+				muteMicrophone();
+			}
+			pollForMicrophoneMuteChanged();
+		}
+	}
+
+	long randomizeMilliseconds(long min, long max) {
+		return (long) (java.lang.Math.random() * max) + min;
+	}
+
 	class Receiver extends BroadcastReceiver {
 		// API-level 28 added AudioManager.ACTION_MICROPHONE_MUTE_CHANGED,
 		// use its raw String value so we can still have backwards
@@ -97,6 +125,9 @@ public class MicrophoneMuter extends Service {
 	// `Activity.stopService(new Intent(Activity.this, MicrophoneMuter.class));`
 	public void onDestroy() {
 		r.unregister();
+		if (shouldPollForMicrophoneMuteChanged) {
+			h.removeCallbacksAndMessages(null);
+		}
 		if (isMicrophoneMuted()) {
 			unmuteMicrophone();
 		}
