@@ -79,7 +79,8 @@ public class MicrophoneMuter extends Service {
 
 	class MicrophonePoller implements Runnable {
 		public void run() {
-			if (!isMicrophoneMuted()) {
+			boolean shouldMuteMicrophone = !isMicrophoneMuted();
+			if (shouldMuteMicrophone) {
 				muteMicrophone();
 			}
 			pollForMicrophoneMuteChanged();
@@ -97,10 +98,10 @@ public class MicrophoneMuter extends Service {
 		final String micMuteToggled = "android.media.action.MICROPHONE_MUTE_CHANGED";
 
 		public void onReceive(Context c, Intent i) {
-			if (micMuteToggled.equals(i.getAction())) {
-				if (!isMicrophoneMuted()) {
-					muteMicrophone();
-				}
+			boolean isMicMuteToggled = micMuteToggled.equals(i.getAction());
+			boolean shouldMuteMicrophone = isMicMuteToggled && !isMicrophoneMuted();
+			if (shouldMuteMicrophone) {
+				muteMicrophone();
 			}
 		}
 
