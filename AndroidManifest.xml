@@ -16,7 +16,7 @@ android:targetSdkVersion="29"
 
 <application
 android:label="Mute Microphone"
-android:icon=""@android:drawable/ic_btn_speak_now"
+android:icon="@drawable/muted_microphone"
 android:theme="@android:style/Theme.Translucent.NoTitleBar"
 >
 
