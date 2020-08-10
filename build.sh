@@ -25,7 +25,7 @@ _aapt=$buildTools/aapt
 _dx=$buildTools/dx
 
 manifestFilepath=$PWD/AndroidManifest.xml
-resourcesFilepath=$PWD/xml
+resourcesFilepath=$PWD/res
 javaSourcesFilepath=$PWD/java
 
 main() {
