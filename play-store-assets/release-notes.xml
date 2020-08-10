@@ -1,0 +1,5 @@
+<en-US>
+- Mutes the microphone input for all apps (including the Phone app) on an Android device
+- Forcibly keeps the microphone muted if other apps try to turn the microphone back on
+- Stops muting the microphone (and re-enables the microphone) by clicking a notification in Notifications Drawer
+</en-US>
