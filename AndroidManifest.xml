@@ -9,7 +9,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
 <application
 android:label="Mute Microphone"
-android:icon="@drawable/muted_microphone"
+android:icon=""@android:drawable/ic_btn_speak_now"
 android:theme="@android:style/Theme.Translucent.NoTitleBar"
 >
 
