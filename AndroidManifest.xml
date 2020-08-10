@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="microphone.muter"
-		  xmlns:android="http://schemas.android.com/apk/res/android">
-  <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+<manifest
+package="microphone.muter"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
 
-  <application
-	android:label="Mute Microphone"
-	android:icon="@android:drawable/ic_btn_speak_now"
-	android:theme="@android:style/Theme.Translucent.NoTitleBar">
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
-	<activity android:name=".Main">
-	  <intent-filter>
-		<action android:name="android.intent.action.MAIN"/>
-		<category android:name="android.intent.category.LAUNCHER"/>
-	  </intent-filter>
-	</activity>
+<application
+android:label="Mute Microphone"
+android:icon="@drawable/muted_microphone"
+android:theme="@android:style/Theme.Translucent.NoTitleBar"
+>
 
-	<service android:name=".MicrophoneMuter"/>
+<activity android:name=".Main">
+<intent-filter>
+<action android:name="android.intent.action.MAIN"/>
+<category android:name="android.intent.category.LAUNCHER"/>
+</intent-filter>
+</activity>
 
-  </application>
+<service android:name=".MicrophoneMuter"/>
+
+</application>
 
 </manifest>
