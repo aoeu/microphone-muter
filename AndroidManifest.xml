@@ -2,8 +2,8 @@
 <manifest
 package="microphone.muter"
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:versionCode="1"
-android:versionName="angry-alligator"
+android:versionCode="2"
+android:versionName="belligerent-badger"
 >
 
 <uses-sdk
