@@ -1,6 +1,8 @@
 package microphone.muter;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -40,9 +42,11 @@ public class MicrophoneMuter extends Service {
 	}
 
 	void startFrontend() {
+		createNotificationChannel();
 		startForeground(
 			notificationID,
 			new Notification.Builder(getApplicationContext())
+				.setChannelId(notificationChannelID)
 				.setOngoing(true)
 				.setContentTitle("All apps are currently receiving no audio from the microphone.")
 				.setContentText(
@@ -54,6 +58,21 @@ public class MicrophoneMuter extends Service {
 				.setSmallIcon(android.R.drawable.ic_lock_silent_mode)
 				.build()
 		);
+	}
+
+	private void createNotificationChannel() {
+			boolean hasNotificationChannelClass = android.os.Build.VERSION.SDK_INT >= 26;
+			if (!hasNotificationChannelClass) {
+				return;
+			}
+			NotificationChannel c = new NotificationChannel(
+				notificationChannelID,
+				"Microphone Muter",
+				NotificationManager.IMPORTANCE_LOW
+			);
+			c.setDescription("Front-end for the app named Microphone Muter");
+			getSystemService(NotificationManager.class)
+				.createNotificationChannel(c);
 	}
 
 	public final static String keyToStop =
