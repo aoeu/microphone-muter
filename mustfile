@@ -22,3 +22,6 @@ clear-log:
 
 log:
 	$(adb) logcat *:E
+
+uninstall:
+	$(adb) uninstall $(packageName)
