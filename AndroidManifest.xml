@@ -2,8 +2,8 @@
 <manifest
 package="microphone.muter"
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:versionCode="2"
-android:versionName="belligerent-badger"
+android:versionCode="3"
+android:versionName="capricious-cat"
 >
 
 <uses-sdk
