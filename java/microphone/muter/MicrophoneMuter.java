@@ -55,7 +55,7 @@ public class MicrophoneMuter extends Service {
 				.setContentIntent(
 					PendingIntent.getActivity(this, 0, createIntent(), 0)
 				)
-				.setSmallIcon(android.R.drawable.ic_lock_silent_mode)
+				.setSmallIcon(R.drawable.muted_microphone_icon)
 				.build()
 		);
 	}
