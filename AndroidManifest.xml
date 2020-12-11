@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-package="microphone.muter"
+package="mute.microphone"
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:versionCode="3"
-android:versionName="capricious-cat"
+android:versionCode="1"
+android:versionName="acromonious-albatross"
 >
 
 <uses-sdk

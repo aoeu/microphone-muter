@@ -1,4 +1,4 @@
-package microphone.muter;
+package mute.microphone;
 
 import android.app.Activity;
 import android.os.Bundle;

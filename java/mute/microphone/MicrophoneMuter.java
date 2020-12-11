@@ -1,4 +1,4 @@
-package microphone.muter;
+package mute.microphone;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -57,6 +57,13 @@ public class MicrophoneMuter extends Service {
 				)
 				.setSmallIcon(R.drawable.muted_microphone_icon)
 				.build()
+		);
+	}
+
+	android.graphics.Bitmap asBitmap(int drawableID) {
+		return android.graphics.BitmapFactory.decodeResource(
+						getApplicationContext().getResources(),
+						drawableID
 		);
 	}
 
