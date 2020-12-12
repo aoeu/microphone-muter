@@ -55,6 +55,7 @@ public class MicrophoneMuter extends Service {
 				.setContentIntent(
 					PendingIntent.getActivity(this, 0, createIntent(), 0)
 				)
+				.setColor(0xFF0000)
 				.setSmallIcon(R.drawable.muted_microphone_icon)
 				.build()
 		);
